@@ -9,12 +9,13 @@ class Game
 	# returns 'win' if guess is correct
 	# else returns a hash with correct positions/elements
 	def evaluate(guess)
+		results = {}
+
 		if guess == @answer
-			return 'win'
+			results[:win?] = true
 		else
 			guess = guess.split("")
 			answer_arr = @answer.split("")
-
 			correct_elements = 0
 			correct_positions = 0
 
@@ -27,19 +28,15 @@ class Game
 			guess.each do |guess_el|
 				if answer_arr.include? guess_el
 					correct_elements += 1
-
-					#deletes one of the matched elements from answer_arr so it doesn't get couted again
+					#deletes one of the matched elements from answer_arr so it doesn't get counted again
 					answer_arr.delete_at(answer_arr.find_index(guess_el)) 
-					puts "answer_arr: #{answer_arr}"
 				end
 			end
 
-			return { elements_matched: correct_elements, positions_matched: correct_positions }
+			results[:win?] = false
+			results[:elements_matched] = correct_elements
+			results[:positions_matched] = correct_positions
 		end
+		return results
 	end
 end
-
-# DRIVER CODE
-
-game = Game.new('rrgy')
-p game.evaluate('gyrr')
