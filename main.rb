@@ -27,7 +27,7 @@ module UI
 				when "i"
 					print_instructions
 				when "q"
-					return
+					abort("Goodbye then.")
 				else
 					puts "Invalid input."
 					puts "Would you like to (p)lay, read the (i)instructions, or (q)uit?"
@@ -50,6 +50,7 @@ module UI
 			
 			loop do
 				puts "What's your guess? (r)ed, (b)lue, (y)ellow, (g)reen"
+				puts
 				input = gets.chomp.downcase
 				case input
 				when "q"
@@ -85,7 +86,7 @@ module UI
 		def valid_guess?(input)
 			elements = Game::ELEMENTS
 			input_arr = input.split("")
-			input_arr.all? { |e| elements.include? e}
+			input_arr.length == 4 && input_arr.all? { |e| elements.include? e}
 		end
 
 		def print_instructions
@@ -97,7 +98,7 @@ module UI
 		end
 
 		def win_message
-			puts "You win!"
+			puts "You win! Turns taken: #{@guess_count}"
 			loop do
 				puts "Play again?"
 				puts "(y)es, (n)o"
@@ -105,7 +106,7 @@ module UI
 				if input == 'y'
 					start_game
 				elsif input == 'n'
-					return
+					abort("Thanks for playing!")
 				end
 			end
 		end
