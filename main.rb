@@ -7,6 +7,7 @@ module UI
 		def initialize
 			@game = nil
 			@guess_count = 0
+			@start_time = nil
 			clear_console
 			greeting
 		end
@@ -27,7 +28,8 @@ module UI
 				when "i"
 					print_instructions
 				when "q"
-					abort("Goodbye then.")
+					puts "Goodbye then."
+					exit
 				else
 					puts "Invalid input."
 					puts "Would you like to (p)lay, read the (i)instructions, or (q)uit?"
@@ -38,24 +40,33 @@ module UI
 		def reset_game
 			@game = Game.new
 			@guess_count = 0
+			@start_time = Time.now
 		end
 
 		def start_game
 			reset_game
 
-			puts "I have generated a beginner sequence with four elements made up of: (r)ed,"
-			puts "(g)reen, (b)lue, and (y)ellow. Use (q)uit at any time to end the game and"
-			puts "(h)elp for possible commands."
+			puts "I have generated a beginner sequence with four elements made up of:"
+			puts
+			puts " (r)ed,"
+			puts " (g)reen,"
+			puts " (b)lue,"
+			puts " (y)ellow"
+			puts
+			puts "Use (q)uit at any time to end the game and (h)elp for possible commands."
 
 			
 			loop do
-				puts "What's your guess? (r)ed, (b)lue, (y)ellow, (g)reen"
+				puts "What's your guess? (e.g. rrby)"
 				puts
 				input = gets.chomp.downcase
 				case input
 				when "q"
 					puts "Are you sure you want to exit the program? (y)es / (n)o"
-					return if gets.chomp.downcase == "y"
+					if gets.chomp.downcase == "y"
+						puts "Bye."
+						exit
+					end
 				when "h"
 					help
 				when "answer"
@@ -98,7 +109,9 @@ module UI
 		end
 
 		def win_message
-			puts "You win! Turns taken: #{@guess_count}"
+			puts "You win!"
+			puts "Turns taken: #{@guess_count}"
+			puts "Time taken: #{Time.now - @start_time} seconds"
 			loop do
 				puts "Play again?"
 				puts "(y)es, (n)o"
@@ -106,7 +119,8 @@ module UI
 				if input == 'y'
 					start_game
 				elsif input == 'n'
-					abort("Thanks for playing!")
+					puts "Thanks for playing!"
+					exit
 				end
 			end
 		end
