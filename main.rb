@@ -1,3 +1,5 @@
+# Created by Pei Xiong Liu 2014
+
 require_relative 'game'
 
 module UI
@@ -48,7 +50,6 @@ module UI
 			
 			loop do
 				puts "What's your guess? (r)ed, (b)lue, (y)ellow, (g)reen"
-				puts "ANSWER: #{@game.answer}"
 				input = gets.chomp.downcase
 				case input
 				when "q"
@@ -56,6 +57,9 @@ module UI
 					return if gets.chomp.downcase == "y"
 				when "h"
 					help
+				when "answer"
+					puts "I hope you're the developer..."
+					puts @game.answer
 				else
 					if valid_guess?(input)
 						@guess_count += 1
